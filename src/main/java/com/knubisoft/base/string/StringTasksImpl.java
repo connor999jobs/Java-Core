@@ -2,6 +2,7 @@ package com.knubisoft.base.string;
 
 import com.ctc.wstx.util.StringUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.Arrays;
 import java.util.regex.Matcher;
@@ -23,9 +24,11 @@ public class StringTasksImpl implements StringTasks {
 //            chars[i] = original.charAt(i - toInsert.length());
 //        }
 //        String newString = new String(chars);
-//        return newString;
+        StringBuilder builder = new StringBuilder(original);
+        int index = (int) (builder.length() / 2);
+        builder.insert(index, toInsert);
+        return builder.toString();
 
-        return null;
     }
 
     @Override
@@ -86,15 +89,17 @@ public class StringTasksImpl implements StringTasks {
     @Override
     public String uniqueCharacters(String str) {
 
-        String uniq = new String(str);
-        for (int i = 0; i < uniq.length(); i++) {
-            for (int j = i +1; j < uniq.length() ; j++) {
-                if (uniq.charAt(i) == uniq.charAt(j))
-                    return uniq;
-            }
-            
-        }
-        return str;
+        String temp = "";
+//        for (int i = 0; i < str.length(); i++){
+//            char current = str.charAt(i);
+//            if (temp.indexOf(current) < 0){
+//                temp = temp + current;
+//            } else {
+//                temp = temp.replace(String.valueOf(current), "");
+//            }
+//        }
+
+        return temp ;
     }
 
     @Override
@@ -109,7 +114,34 @@ public class StringTasksImpl implements StringTasks {
 
     @Override
     public String toCamelCase(String str) {
-        return null;
+//         String regex = "([^a-zA-Z']+)'*\\1*";
+//         String[] split = str.split(regex);
+//         StringBuilder sb = new StringBuilder();
+//
+//        for (int i = 0; i < split.length; i++) {
+//            if (i == 0) {
+//                sb.append(split[i]);
+//            } else if (split[i].length()>0){
+//                sb.append(split[i].replaceFirst(split[i].substring(0, 1), split[i].substring(0, 1).toUpperCase()));
+//            }
+        // return new String(sb);
+//        }
+        StringBuilder sb = new StringBuilder();
+        Boolean nextC = false;
+        for (int i = 0; i < str.length(); i++) {
+            if (Character.isLetter(str.charAt(i))){
+                char t = str.charAt(i);
+
+                if (nextC) t = Character.toUpperCase(t);
+                sb.append(t);
+                nextC = false;
+            }
+            else {
+                nextC =true;
+            }
+            
+        }
+        return sb.toString();
     }
 
     @Override
@@ -119,6 +151,8 @@ public class StringTasksImpl implements StringTasks {
 
     @Override
     public String sortStringCharactersAsc(String str) {
-        return null;
+        char [] arr= str.toCharArray();
+        Arrays.sort(arr);
+        return String.valueOf(arr);
     }
 }

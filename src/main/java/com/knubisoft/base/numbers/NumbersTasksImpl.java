@@ -92,21 +92,73 @@ public class NumbersTasksImpl implements NumbersTasks {
 
     @Override
     public boolean isArmstrongNumber(int number) {
-        return false;
+        int originalNumber, remainder, result = 0;
+
+        originalNumber = number;
+
+        while (originalNumber != 0)
+        {
+            remainder = originalNumber % 10;
+            result += Math.pow(remainder, 3);
+            originalNumber /= 10;
+        }
+
+        if(result == number)
+            return true;
+        else
+            return false;
     }
+
 
     @Override
     public BigInteger factorial(int number) {
-        return BigInteger.ZERO;
+//        int res = 1, i;
+//        for (i=2; i<=number; i++)
+//            res *= i;
+
+//        return BigInteger.valueOf(res);
+        BigInteger result = BigInteger.ONE;
+        for (int i = 1; i <= number; i++)
+            result = result.multiply(BigInteger.valueOf(i));
+        return result;
     }
 
     @Override
     public boolean palindrome(int number) {
-        return false;
+        int reverseNum = 0;
+        int tempOriginal = number;
+
+        while (tempOriginal > 0) {
+
+            int lastDigit = tempOriginal % 10;
+            reverseNum = reverseNum * 10 + lastDigit;
+            tempOriginal = tempOriginal / 10;
+        }
+
+        if (number == reverseNum) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public boolean isAutomorphic(int number) {
-        return false;
+        int c=0, sqr = number*number;
+        int temp =number;  //copying num
+
+        //countint digits of num
+        while(temp>0){
+            c++;
+            temp=temp/10;
+        }
+
+        int lastSquareDigits = (int) (sqr%(Math.pow(10,c)));
+
+        if(number == lastSquareDigits)
+           return true;
+        else
+            return false;
+
     }
 }
