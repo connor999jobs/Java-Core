@@ -75,9 +75,9 @@ public class ReflectionTasksTest {
     @SneakyThrows
     public void countPrivateMethodsInClassSuccessful() {
         Class<?> clazz = Class.forName("com.knubisoft.base.reflection.model.EntryModel");
-        assertEquals(2, instance.countPrivateMethodsInClass(clazz));
+        assertEquals(3, instance.countPrivateMethodsInClass(clazz));
         assertEquals(0, instance.countPrivateMethodsInClass(StringTasks.class));
-        assertEquals(2, instance.countPrivateMethodsInClass(EntryModel.class));
+        assertEquals(3, instance.countPrivateMethodsInClass(EntryModel.class));
     }
 
     @Test

@@ -1,13 +1,24 @@
 package com.knubisoft.base.reflection;
 
-import java.lang.reflect.Method;
-import java.util.Map;
+import java.lang.reflect.*;
+import java.util.*;
+
+import static java.util.Collections.addAll;
 
 public class ReflectionTasksImpl implements ReflectionTasks {
 
     @Override
     public Object createNewInstanceForClass(Class<?> cls) {
-        return null;
+        Object o = null;
+        try {
+            cls = Class.forName("com.knubisoft.base.reflection.model.InheritedEntryModel");
+            Class[] params = {String.class, String.class, String.class};
+            o = cls.getConstructor(params).newInstance("1","2","3");
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException |
+                 NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+        return o;
     }
 
     @Override
@@ -18,12 +29,49 @@ public class ReflectionTasksImpl implements ReflectionTasks {
     @Override
     public Map<String, Object> findAllFieldsForClass(Class<?> cls) {
 
-        return null;
+
+        Map<String, Object> map = new HashMap<>();
+        Field[] fields = cls.getClass().getDeclaredFields();
+        map.put(String.valueOf(map), fields);
+
+
+        Class<?> parentClass = cls.getClass().getSuperclass();
+        while (parentClass != null){
+            Field[] patentFields =parentClass.getDeclaredFields();
+            map.put(String.valueOf(map), patentFields);
+            parentClass = parentClass.getSuperclass();
+        }
+
+        return  map;
+
+//        Field [] fields = cls.getClass().getDeclaredFields();
+//        Map<String, Object> newMap = new HashMap<String , Object>();
+//        Class<?> parentClass = cls.getClass().getSuperclass();
+//
+//        for (Field field : fields){
+//            while (parentClass != null){
+//                Field[] parentsField =parentClass.getDeclaredFields();
+//                newMap.put(field.getName(), parentsField);
+//                parentClass = parentClass.getSuperclass();
+//            }
+//            newMap.put(field.getName(), cls);
+//        }
+//
+//        return newMap;
     }
 
     @Override
     public int countPrivateMethodsInClass(Class<?> cls) {
-        return -1;
+        int count =0;
+        List<Field> privateFields = new ArrayList<>();
+        Field[] allFields = cls.getDeclaredFields();
+        for (Field field : allFields) {
+            if (Modifier.isPrivate(field.getModifiers())) {
+                privateFields.add(field);
+                count++;
+            }
+        }
+        return count;
     }
 
     @Override
