@@ -30,34 +30,17 @@ public class ReflectionTasksImpl implements ReflectionTasks {
     public Map<String, Object> findAllFieldsForClass(Class<?> cls) {
 
 
+
         Map<String, Object> map = new HashMap<>();
-        Field[] fields = cls.getClass().getDeclaredFields();
-        map.put(String.valueOf(map), fields);
-
-
-        Class<?> parentClass = cls.getClass().getSuperclass();
-        while (parentClass != null){
-            Field[] patentFields =parentClass.getDeclaredFields();
-            map.put(String.valueOf(map), patentFields);
-            parentClass = parentClass.getSuperclass();
+        while (cls != null){
+            for (Field field : cls.getDeclaredFields()){
+                if (!map.containsKey(field.getName())){
+                    map.put(field.getName(), field);
+                }
+            }
+            cls = cls.getSuperclass();
         }
-
-        return  map;
-
-//        Field [] fields = cls.getClass().getDeclaredFields();
-//        Map<String, Object> newMap = new HashMap<String , Object>();
-//        Class<?> parentClass = cls.getClass().getSuperclass();
-//
-//        for (Field field : fields){
-//            while (parentClass != null){
-//                Field[] parentsField =parentClass.getDeclaredFields();
-//                newMap.put(field.getName(), parentsField);
-//                parentClass = parentClass.getSuperclass();
-//            }
-//            newMap.put(field.getName(), cls);
-//        }
-//
-//        return newMap;
+        return map;
     }
 
     @Override
