@@ -139,7 +139,7 @@ public class StringTasksImpl implements StringTasks {
             else {
                 nextC =true;
             }
-            
+
         }
         return sb.toString();
     }

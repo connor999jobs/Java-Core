@@ -2,8 +2,6 @@ package com.knubisoft.base.date;
 
 import org.junit.jupiter.api.Test;
 
-import java.text.ParseException;
-
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -22,7 +20,7 @@ class DateTasksTest {
     }
 
     @Test
-    void getMonthFromDate() throws ParseException {
+    void getMonthFromDate() {
         assertEquals(11, dateTasks.getMonthFromDate("Mon, 26 Nov 2018"));
         assertEquals(5, dateTasks.getMonthFromDate("Tue, 06 May 1980"));
         assertEquals(1, dateTasks.getMonthFromDate("Wed, 03 Jan 2018"));
@@ -33,7 +31,7 @@ class DateTasksTest {
     }
 
     @Test
-    void findBiggestDate() throws ParseException {
+    void findBiggestDate() {
         assertEquals("2022-05-17 18:42:51",
                 dateTasks.findBiggestDate("2015-01-22 10:15:55", "2022-05-17 18:42:51", "2022-02-19 18:42:51"));
         assertEquals("2022-05-17 18:42:53",
@@ -58,7 +56,7 @@ class DateTasksTest {
     }
 
     @Test
-    void sumTimes() throws ParseException {
+    void sumTimes() {
         assertEquals("10:30:00", dateTasks.sumTimes("07:00:00", "03:30:00"));
         assertEquals("00:00:00", dateTasks.sumTimes("23:59:59", "00:00:01"));
         assertEquals("12:56:57", dateTasks.sumTimes("10:55:45", "02:01:12"));
@@ -77,7 +75,7 @@ class DateTasksTest {
     }
 
     @Test
-    void getNumberOfDaysBetweenTwoDates() throws ParseException {
+    void getNumberOfDaysBetweenTwoDates() {
         assertEquals(3652, dateTasks.getNumberOfDaysBetweenTwoDates("2012-09-21","2022-09-21"));
         assertEquals(0, dateTasks.getNumberOfDaysBetweenTwoDates("2022-09-21","2022-09-21"));
         assertEquals(38, dateTasks.getNumberOfDaysBetweenTwoDates("2021-11-23","2021-12-31"));

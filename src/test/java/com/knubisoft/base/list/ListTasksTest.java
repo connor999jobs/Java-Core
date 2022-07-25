@@ -197,7 +197,7 @@ public class ListTasksTest {
         assertEquals(3, instance.getListSize(actual));
         assertEquals(actual.size(), instance.getListSize(actual));
         assertEquals(0, instance.getListSize(Collections.emptyList()));
-//        assertEquals(0, instance.getListSize(null));
+        assertEquals(0, instance.getListSize(null));
     }
 
     @Test

@@ -19,16 +19,16 @@ public class ArraysTasksImpl implements ArraysTasks {
 
     @Override
     public int[] mergeArrays(int[] array1, int[] array2) {
-         array1 = new int[]{10, 20, 30, 40};
-         array2 = new int[]{50, 60, 70, 80};
-         int a1 = array1.length;
-         int a2 = array2.length;
-         int c1 = a1+a2;
-         int [] c = new int[c1];
-         System.arraycopy(array1,0,c,0,a1);
-         System.arraycopy(array2, 0, c, a1, a2);
+        array1 = new int[]{10, 20, 30, 40};
+        array2 = new int[]{50, 60, 70, 80};
+        int a1 = array1.length;
+        int a2 = array2.length;
+        int c1 = a1+a2;
+        int [] c = new int[c1];
+        System.arraycopy(array1,0,c,0,a1);
+        System.arraycopy(array2, 0, c, a1, a2);
 
-         System.out.println(Arrays.toString(c));
+        System.out.println(Arrays.toString(c));
         return c;
     }
 
@@ -158,7 +158,7 @@ public class ArraysTasksImpl implements ArraysTasks {
                 if (array[i] == array[j])
                     return true;
             }
-            
+
         }
         return false;
     }

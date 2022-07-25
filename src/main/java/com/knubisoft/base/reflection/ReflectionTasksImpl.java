@@ -17,6 +17,7 @@ public class ReflectionTasksImpl implements ReflectionTasks {
 
     @Override
     public Map<String, Object> findAllFieldsForClass(Class<?> cls) {
+
         return null;
     }
 

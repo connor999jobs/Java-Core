@@ -55,17 +55,23 @@ public class DateTasksImpl implements DateTasks {
     public String getLastDayOfTheMonth(String date) {
         LocalDate lastDayOfMonth = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
                 .with(TemporalAdjusters.lastDayOfMonth());
-           return String.valueOf(lastDayOfMonth);
+        return String.valueOf(lastDayOfMonth);
 
     }
 
     @Override
-    public String sumTimes(String time1, String time2) throws ParseException {
+    public String sumTimes(String time1, String time2)  {
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 
-        Date d1 = dateFormat.parse(time1);
-        Date d2 = dateFormat.parse(time2);
+        Date d1 = null;
+        Date d2 = null;
+        try {
+            d1 = dateFormat.parse(time1);
+            d2 = dateFormat.parse(time2);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
         long sum = d1.getTime() + d2.getTime();
         String d3 = dateFormat.format(new Date(sum));
 
@@ -87,9 +93,9 @@ public class DateTasksImpl implements DateTasks {
         LocalDate firstDate = LocalDate.parse(date1,formatter);
         LocalDate secondDate = LocalDate.parse(date2,formatter);
         long days = ChronoUnit.DAYS.between(firstDate,secondDate);
-            return days;
+        return days;
 
-        }
+    }
 
 
     @Override

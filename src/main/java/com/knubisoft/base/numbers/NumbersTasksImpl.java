@@ -156,7 +156,7 @@ public class NumbersTasksImpl implements NumbersTasks {
         int lastSquareDigits = (int) (sqr%(Math.pow(10,c)));
 
         if(number == lastSquareDigits)
-           return true;
+            return true;
         else
             return false;
 

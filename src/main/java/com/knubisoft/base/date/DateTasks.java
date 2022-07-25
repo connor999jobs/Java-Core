@@ -1,7 +1,5 @@
 package com.knubisoft.base.date;
 
-import java.text.ParseException;
-
 public interface DateTasks {
 
     /**
@@ -30,7 +28,7 @@ public interface DateTasks {
      * @param date Random date in string format.
      * @return Number of month.
      */
-    int getMonthFromDate(String date) throws ParseException;
+    int getMonthFromDate(String date);
 
     /**
      * Given 3 input strings containing different random dates in the format [year-month-day hours:minutes:seconds],
@@ -47,7 +45,7 @@ public interface DateTasks {
      * @param date3 Third random date in string format.
      * @return Biggest date.
      */
-    String findBiggestDate(String date1, String date2, String date3) throws ParseException;
+    String findBiggestDate(String date1, String date2, String date3);
 
     /**
      * Given an input string containing random date in [year-month-day] format, your task is to parse the input
@@ -66,7 +64,7 @@ public interface DateTasks {
 
     /**
      * Given 2 input strings containing different random times in the format [hours:minutes:seconds], your task is to parse
-         * these strings to the objects for working with date and time, sum 2 times and return result in same string format
+     * these strings to the objects for working with date and time, sum 2 times and return result in same string format
      * as input strings.
      *
      * Example 1:
@@ -83,7 +81,7 @@ public interface DateTasks {
      * @param time2 Second random time in string format.
      * @return Sum result.
      */
-    String sumTimes(String time1, String time2) throws ParseException;
+    String sumTimes(String time1, String time2);
 
     /**
      * Given an input string containing random date in [year-month-day] format, your task is to parse the input string
@@ -122,7 +120,7 @@ public interface DateTasks {
      * @param date2 Second random date in string format.
      * @return
      */
-    long getNumberOfDaysBetweenTwoDates(String date1, String date2) throws ParseException;
+    long getNumberOfDaysBetweenTwoDates(String date1, String date2);
 
     /**
      * Given an input string containing random date in [year-month-day] format, your task is to parse the input string
