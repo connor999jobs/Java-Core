@@ -7,6 +7,7 @@ import com.knubisoft.base.string.StringTasksImpl;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Method;
 import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -85,6 +86,11 @@ public class ReflectionTasksTest {
     public void countPrivateMethodsInClassFail() {
         assertThrows(NoSuchElementException.class, () -> instance.countPrivateMethodsInClass(null));
     }
+
+//    @Test
+//    public boolean isMethodHasAnnotation(Method method, Class<?> clazz){
+//
+//    }
 
     @Test
     public void evaluateMethodByNameArgsSuccessful() {

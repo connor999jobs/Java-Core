@@ -1,5 +1,7 @@
 package com.knubisoft.base.reflection;
 
+import com.knubisoft.base.reflection.annotation.FirstAnnotation;
+
 import java.lang.reflect.*;
 import java.util.*;
 
@@ -59,6 +61,15 @@ public class ReflectionTasksImpl implements ReflectionTasks {
 
     @Override
     public boolean isMethodHasAnnotation(Method method, Class<?> annotationUnderMethod) {
+        try {
+            annotationUnderMethod = Class.forName("com.knubisoft.base.reflection.model.ClassWithAnnotations");
+            Method m = annotationUnderMethod.getMethod("classMember");
+            FirstAnnotation annotation = m.getAnnotation(FirstAnnotation.class);
+
+        } catch (ClassNotFoundException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+
         return false;
     }
 
