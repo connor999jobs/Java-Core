@@ -80,7 +80,18 @@ public class ReflectionTasksImpl implements ReflectionTasks {
 
     @Override
     public Object evaluateMethodWithArgsByName(Object obj, String name, Object... args) {
-        return null;
+
+        Object result = "";
+        try {
+            Method method = obj.getClass().getMethod(name, new Class[]{String.class});
+
+            result = method.invoke(obj, args);
+
+        }
+        catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e){
+            e.printStackTrace();
+        }
+        return result;
     }
 
     @Override
