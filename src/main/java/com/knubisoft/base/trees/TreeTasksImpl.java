@@ -90,16 +90,49 @@ public class TreeTasksImpl implements TreeTasks {
 
     @Override
     public TreeNode invertTree(TreeNode node) {
-        return null;
+        if (node == null){
+            return null;
+        }
+        TreeNode left =invertTree(node.left);
+        TreeNode right = invertTree(node.right);
+        node.left = right;
+        node.right =left;
+        return node;
     }
 
+
+    boolean isLeaf(TreeNode node){
+        if (node == null)
+            return false;
+        if (node.left == null && node.right == null)
+            return true;
+        return false;
+    }
     @Override
     public int sumOfLeftLeaves(TreeNode node) {
-        return -1;
+        int result = 0;
+
+        if (node != null){
+            if (isLeaf(node.left))
+                result += node.left.val;
+            else result += sumOfLeftLeaves(node.left);
+
+            result += sumOfLeftLeaves(node.right);
+        }
+        return result;
     }
 
     @Override
     public TreeNode mergeTrees(TreeNode node1, TreeNode node2) {
-        return null;
+        if (node1 == null)
+            return node2;
+        if (node2 == null)
+            return node1;
+
+        node1.val += node2.val;
+        node1.left = mergeTrees(node1.left, node2.left);
+        node1.right = mergeTrees(node1.right,node2.right);
+
+        return node1;
     }
 }
