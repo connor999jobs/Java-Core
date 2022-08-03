@@ -73,15 +73,12 @@ public class NumbersTasksImpl implements NumbersTasks {
         if (number <= 1)
             return false;
 
-            // Check if number is 2
         else if (number == 2)
             return true;
 
-            // Check if n is a multiple of 2
         else if (number % 2 == 0)
             return false;
 
-        // If not, then just check the odds
         for (int i = 3; i <= Math.sqrt(number); i += 2)
         {
             if (number % i == 0)

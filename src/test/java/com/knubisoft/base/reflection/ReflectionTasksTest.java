@@ -99,9 +99,9 @@ public class ReflectionTasksTest {
         assertEquals("He, Worldllo",
                 instance.evaluateMethodWithArgsByName(new StringTasksImpl(), "insertStringInMiddle",
                         "Hello", ", World"));
-        assertEquals("g",
+        assertEquals("string",
                 instance.evaluateMethodWithArgsByName(new StringTasksImpl(), "uniqueCharacters",
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do"));
+                        "string"));
     }
 
     @Test

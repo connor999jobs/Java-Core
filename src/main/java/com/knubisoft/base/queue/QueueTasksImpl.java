@@ -1,8 +1,8 @@
 package com.knubisoft.base.queue;
 
 import com.knubisoft.base.queue.car.Car;
+import com.knubisoft.base.queue.car.CarComparator;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class QueueTasksImpl implements QueueTasks {
@@ -84,7 +84,11 @@ public class QueueTasksImpl implements QueueTasks {
 
     @Override
     public PriorityQueue<Car> implementPriorityQueueThroughComparator(List<Car> cars) {
-        return null;
+        PriorityQueue<Car> priorityQueue = new PriorityQueue<>(cars.size(), new CarComparator());
+        priorityQueue.addAll(cars);
+
+
+        return priorityQueue;
     }
 
 }

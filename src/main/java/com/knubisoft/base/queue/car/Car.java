@@ -17,4 +17,12 @@ public class Car {
     public double getPrice() {
         return price;
     }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "brand='" + brand + '\'' +
+                ", price=" + price +
+                '}';
+    }
 }

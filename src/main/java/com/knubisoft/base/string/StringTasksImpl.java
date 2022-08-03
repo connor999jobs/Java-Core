@@ -5,6 +5,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.Arrays;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -88,18 +90,18 @@ public class StringTasksImpl implements StringTasks {
 
     @Override
     public String uniqueCharacters(String str) {
-
         String temp = "";
-//        for (int i = 0; i < str.length(); i++){
-//            char current = str.charAt(i);
-//            if (temp.indexOf(current) < 0){
-//                temp = temp + current;
-//            } else {
-//                temp = temp.replace(String.valueOf(current), "");
-//            }
-//        }
+        for (int i = 0; i < str.length(); i++){
+            char current = str.charAt(i);
+            if (temp.indexOf(current) < 0){
+                temp = temp + current;
+            } else {
+                temp = temp.replace(String.valueOf(current), "");
+            }
+        }
 
         return temp ;
+
     }
 
     @Override

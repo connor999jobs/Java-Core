@@ -14,6 +14,8 @@ public class InheritedEntryModel extends EntryModel {
         super(tableName, schemaName, version);
     }
 
+
+
     @Override
     public EntryModel builder() {
         return super.builder();

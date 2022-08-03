@@ -1,6 +1,7 @@
 package com.knubisoft.base.reflection;
 
 import com.knubisoft.base.reflection.annotation.FirstAnnotation;
+import com.knubisoft.base.string.StringTasksImpl;
 
 import java.lang.reflect.*;
 import java.util.*;
@@ -13,7 +14,7 @@ public class ReflectionTasksImpl implements ReflectionTasks {
     public Object createNewInstanceForClass(Class<?> cls) {
         Object o = null;
         try {
-            cls = Class.forName("com.knubisoft.base.reflection.model.InheritedEntryModel");
+            cls = Class.forName("com.knubisoft.base.reflection.model.EntryModel");
             Class[] params = {String.class, String.class, String.class};
             o = cls.getConstructor(params).newInstance("1","2","3");
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException |
@@ -25,7 +26,10 @@ public class ReflectionTasksImpl implements ReflectionTasks {
 
     @Override
     public <T> Class<? extends T> findImplementationForInterface(Class<T> cls) {
-        return null;
+
+        Class<? extends T> getClassAndInterfaces = (Class<? extends T>) cls.getClass().getSuperclass();
+        Class<?>[] getInterface = getClassAndInterfaces.getInterfaces();
+      return null;
     }
 
     @Override
@@ -80,16 +84,20 @@ public class ReflectionTasksImpl implements ReflectionTasks {
 
     @Override
     public Object evaluateMethodWithArgsByName(Object obj, String name, Object... args) {
-
         Object result = "";
         try {
-            Method method = obj.getClass().getMethod(name, new Class[]{String.class});
+            Class<?> clazz = obj.getClass();
+            result = clazz.newInstance();
+            Class<?>[] classes = Arrays.stream(args).map(Object::getClass).toArray(Class<?>[]::new);
+            Method method = clazz.getDeclaredMethod(name, classes);
 
             result = method.invoke(obj, args);
 
         }
         catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e){
             e.printStackTrace();
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
         }
         return result;
     }
