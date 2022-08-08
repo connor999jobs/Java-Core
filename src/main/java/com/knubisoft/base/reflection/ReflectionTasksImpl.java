@@ -94,10 +94,8 @@ public class ReflectionTasksImpl implements ReflectionTasks {
             result = method.invoke(obj, args);
 
         }
-        catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e){
+        catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e){
             e.printStackTrace();
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
         }
         return result;
     }
