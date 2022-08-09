@@ -1,0 +1,42 @@
+<root>
+    <row>
+        <name>Vadym</name>
+        <surname>Kostenko</surname>
+        <age>24</age>
+        <dateOfBirth>1998-07-27</dateOfBirth>
+        <gender>male</gender>
+        <company>knubisoft</company>
+        <position>java trainee</position>
+        <salary>200.0</salary>
+    </row>
+    <row>
+        <name>Valik</name>
+        <surname>Tvardovski</surname>
+        <age>23</age>
+        <dateOfBirth>1999-05-25</dateOfBirth>
+        <gender>male</gender>
+        <company>DataArt</company>
+        <position>Senior Java</position>
+        <salary>5000.0</salary>
+    </row>
+    <row>
+        <name>Anastasiya</name>
+        <surname>Skvorchova</surname>
+        <age>23</age>
+        <dateOfBirth>1998-09-28</dateOfBirth>
+        <gender>female</gender>
+        <company>AAA</company>
+        <position>Data Analyst</position>
+        <salary>1000.0</salary>
+    </row>
+    <row>
+        <name>Dima</name>
+        <surname>Izotov</surname>
+        <age>22</age>
+        <dateOfBirth>1999-10-25</dateOfBirth>
+        <gender>male</gender>
+        <company>Global Logic</company>
+        <position>Network Eng</position>
+        <salary>1500.0</salary>
+    </row>
+</root>

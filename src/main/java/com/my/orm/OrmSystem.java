@@ -1,15 +1,32 @@
 package com.my.orm;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JSR310Module;
+import com.my.parseXml.Employee;
 import lombok.SneakyThrows;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.BufferedReader;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -26,7 +43,6 @@ public class OrmSystem {
                 .collect(Collectors.toList());
     }
 
-
     private static Map<Integer, String> buildMapping(String firstLine) {
         Map<Integer, String> stringMap = new LinkedHashMap<>();
         String[] array = splitLine(firstLine);
@@ -39,7 +55,6 @@ public class OrmSystem {
         }
         return stringMap;
     }
-
 
     @SneakyThrows
     private static <T> T toType(String lines, Class<T> cls, Map<Integer, String> map) {
@@ -80,7 +95,55 @@ public class OrmSystem {
         }).apply(value);
     }
 
+
     private static String[] splitLine(String firstLine) {
         return firstLine.split(DELIMITER);
     }
+
+    public static List<Person> parsePersonXML() throws ParserConfigurationException, SAXException, IOException {
+        List<Person> employees = new ArrayList<Person>();
+        Person person = null;
+
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document document = builder.parse(new File("C:\\Users\\konno\\Downloads" +
+                "\\java-education-main@28560403666\\src\\main\\resources\\readers.xml"));
+        document.getDocumentElement().normalize();
+        NodeList nList = document.getElementsByTagName("row");
+        for (int temp = 0; temp < nList.getLength(); temp++) {
+            Node node = nList.item(temp);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element eElement = (Element) node;
+                //Create new Person Object
+                person = new Person();
+                person.setName(eElement.getElementsByTagName("name").item(0).getTextContent());
+                person.setSurname(eElement.getElementsByTagName("surname").item(0).getTextContent());
+                person.setAge(Integer.valueOf(eElement.getElementsByTagName("age").item(0).getTextContent()));
+                person.setDateOfBirth(LocalDate.parse(eElement.getElementsByTagName("dateOfBirth").item(0).getTextContent()));
+                person.setGender(eElement.getElementsByTagName("gender").item(0).getTextContent());
+                person.setCompany(eElement.getElementsByTagName("company").item(0).getTextContent());
+                person.setPosition(eElement.getElementsByTagName("position").item(0).getTextContent());
+                person.setSalary(Float.valueOf(eElement.getElementsByTagName("salary").item(0).getTextContent()));
+
+                //Add Person to list
+                employees.add(person);
+            }
+        }
+        return employees;
+    }
+
+
+    public static List<Person> parseJson() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JSR310Module());
+        List<Person> personList = objectMapper.readValue(
+                new File("C:\\Users\\konno\\Downloads\\java-education-main@28560403666" +
+                        "\\src\\main\\resources\\rrr.json"),
+                new TypeReference<List<Person>>() {
+                }
+        );
+        return personList;
+
+    }
+
 }

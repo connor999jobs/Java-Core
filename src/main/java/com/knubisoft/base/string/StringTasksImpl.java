@@ -1,6 +1,6 @@
 package com.knubisoft.base.string;
 
-import com.ctc.wstx.util.StringUtil;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 
