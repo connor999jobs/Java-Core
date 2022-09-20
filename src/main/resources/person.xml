@@ -1,4 +1,4 @@
-<root>
+<person>
     <row>
         <name>Vadym</name>
         <surname>Kostenko</surname>
@@ -39,4 +39,4 @@
         <position>Network Eng</position>
         <salary>1500.0</salary>
     </row>
-</root>
+</person>

@@ -47,12 +47,9 @@ public class TreeTasksImpl implements TreeTasks {
 
     @Override
     public boolean isSymmetric(TreeNode node) {
-
         if (node == null) {
             return true;
         }
-
-
      return isSameTree(node.left,node.right);
     }
 

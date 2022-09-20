@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
@@ -14,6 +15,9 @@ public class StringTasksImpl implements StringTasks {
 
     @Override
     public String reverseString(String original) {
+        if (original == null) {
+            throw new IllegalArgumentException();
+        }
         StringBuffer stringBuffer = new StringBuffer(original);
         stringBuffer.reverse();
         return String.valueOf(stringBuffer);
@@ -21,6 +25,9 @@ public class StringTasksImpl implements StringTasks {
 
     @Override
     public String insertStringInMiddle(String original, String toInsert) {
+        if (original == null || toInsert == null || original.length() == 0 || toInsert.length() == 0) {
+            throw new IllegalArgumentException();
+        }
 //        char chars[] = new char[original.length() + toInsert.length()];
 //        for (int i = 0; i < toInsert.length(); i++) {
 //            chars[i] = original.charAt(i - toInsert.length());
@@ -35,6 +42,9 @@ public class StringTasksImpl implements StringTasks {
 
     @Override
     public String insertSymbolInString(String original, char toInsert, int position) {
+        if (original == null || position > original.length() || original.length() == 0 || position < 0) {
+            throw new IllegalArgumentException();
+        }
 //        String newString = new String();
 //        for (int i = 0; i < original.length(); i++) {
 //            newString += original.charAt(position);
@@ -58,6 +68,9 @@ public class StringTasksImpl implements StringTasks {
 
     @Override
     public String appendToString(StringBuilder original, String toAppend) {
+        if (original == null || toAppend == null || original.length() == 0) {
+            throw new NoSuchElementException();
+        }
         StringBuffer sb = new StringBuffer();
         sb.append(original);
         sb.append(toAppend);
@@ -67,6 +80,9 @@ public class StringTasksImpl implements StringTasks {
 
     @Override
     public boolean isPalindrome(String palindrome) {
+        if (palindrome == null) {
+            throw new RuntimeException();
+        }
         String clean = palindrome.replaceAll("\\s+", "").toLowerCase();
         int length = clean.length();
         int forward = 0;
@@ -82,6 +98,9 @@ public class StringTasksImpl implements StringTasks {
 
     @Override
     public boolean hasLowerCase(String str) {
+        if (str == null) {
+            throw new IllegalArgumentException();
+        }
         if (str.equals(str.toLowerCase())){
             return true;
         }
@@ -90,6 +109,9 @@ public class StringTasksImpl implements StringTasks {
 
     @Override
     public String uniqueCharacters(String str) {
+        if (str == null) {
+            throw new IllegalArgumentException();
+        }
         String temp = "";
         for (int i = 0; i < str.length(); i++){
             char current = str.charAt(i);
@@ -106,8 +128,9 @@ public class StringTasksImpl implements StringTasks {
 
     @Override
     public String removeAllCharacters(String str, char charToRemove) {
-//        StringBuilder sb = new StringBuilder(str);
-//        sb.deleteCharAt(charToRemove);
+        if (str == null) {
+            throw new IllegalArgumentException();
+        }
         String s= StringUtils.remove(str,charToRemove);
         return s;
 
@@ -116,43 +139,60 @@ public class StringTasksImpl implements StringTasks {
 
     @Override
     public String toCamelCase(String str) {
-//         String regex = "([^a-zA-Z']+)'*\\1*";
-//         String[] split = str.split(regex);
-//         StringBuilder sb = new StringBuilder();
-//
-//        for (int i = 0; i < split.length; i++) {
-//            if (i == 0) {
-//                sb.append(split[i]);
-//            } else if (split[i].length()>0){
-//                sb.append(split[i].replaceFirst(split[i].substring(0, 1), split[i].substring(0, 1).toUpperCase()));
-//            }
-        // return new String(sb);
-//        }
-        StringBuilder sb = new StringBuilder();
-        Boolean nextC = false;
-        for (int i = 0; i < str.length(); i++) {
-            if (Character.isLetter(str.charAt(i))){
-                char t = str.charAt(i);
-
-                if (nextC) t = Character.toUpperCase(t);
-                sb.append(t);
-                nextC = false;
+        if (str == null || str.isBlank()) {
+            throw new IllegalArgumentException();
+        }
+        boolean flag = false;
+        StringBuilder builder = new StringBuilder();
+        for (String value: str.split("")) {
+            if (builder.length() == 0) {
+                builder.append(value.toLowerCase());
+                continue;
+            }
+            if (value.matches("[-_\\s]")) {
+                flag = true;
+                continue;
+            }
+            if (flag ) {
+                builder.append(value.toUpperCase());
+                flag = false;
             }
             else {
-                nextC =true;
+                builder.append(value);
             }
-
         }
-        return sb.toString();
+        return builder.toString();
     }
 
     @Override
     public String getCountRepeatableString(String str) {
-        return null;
+        if (str == null) {
+            throw new IllegalArgumentException();
+        }
+        if(str.isEmpty()) return "";
+        String[] split = str.split("");
+        StringBuilder builder = new StringBuilder();
+        int count;
+        for (int i = 0; i < split.length; i++) {
+            count = 1;
+            for (int j = i; j < split.length; j++) {
+                if (split[i].equals(split[j])) {
+                    if (count > 9) {
+                        count = 1;
+                    }
+                    builder.append(count);
+                    count++;
+                }
+            }
+        }
+        return builder.toString();
     }
 
     @Override
     public String sortStringCharactersAsc(String str) {
+        if (str == null) {
+            throw new IllegalArgumentException();
+        }
         char [] arr= str.toCharArray();
         Arrays.sort(arr);
         return String.valueOf(arr);

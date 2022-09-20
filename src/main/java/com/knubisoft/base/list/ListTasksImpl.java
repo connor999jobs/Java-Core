@@ -39,6 +39,9 @@ public class ListTasksImpl implements ListTasks {
 
     @Override
     public int getListSize(List<String> list) {
+        if (list == null) {
+            return 0;
+        }
 
         return list.size();
     }
@@ -107,11 +110,14 @@ public class ListTasksImpl implements ListTasks {
 
     @Override
     public List<Integer> flatMapWithoutNulls(List<List<Integer>> list) {
-
-        list = list.stream()
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
-        return null;
+        if (list == null) {
+            throw new NoSuchElementException();
+        }
+        List<Integer> res = new ArrayList<>();
+        for (List<Integer> l : list) {
+            res.addAll(l.stream().filter(Objects::nonNull).toList());
+        }
+        return res;
     }
 
     @Override
@@ -136,6 +142,17 @@ public class ListTasksImpl implements ListTasks {
     @Override
     public List<String> compareElements(LinkedList<String> originalCollection, LinkedList<String> additionalCollection) {
 
-        return null;
+        if (originalCollection == null || additionalCollection == null) {
+            throw new IllegalArgumentException();
+        }
+        List<String> res = new ArrayList<>();
+        for (int i = 0; i < originalCollection.size(); i++) {
+            for (int j = 0; j < additionalCollection.size(); j++) {
+                if (originalCollection.get(i).equals(additionalCollection.get(j))) {
+                    res.add(originalCollection.get(i));
+                }
+            }
+        }
+        return res;
     }
 }

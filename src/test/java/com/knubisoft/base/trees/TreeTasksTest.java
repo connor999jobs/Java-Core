@@ -195,7 +195,7 @@ class TreeTasksTest {
                 new TreeTasks.TreeNode(2,
                         new TreeTasks.TreeNode(4),
                         new TreeTasks.TreeNode(3)));
-        assertTrue(treeTasks.isSymmetric(tree1));
+        assertFalse(treeTasks.isSymmetric(tree1));
 
         TreeTasks.TreeNode tree2 = new TreeTasks.TreeNode(1,
                 new TreeTasks.TreeNode(2,

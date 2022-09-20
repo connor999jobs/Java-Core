@@ -48,6 +48,9 @@ public class NumbersTasksImpl implements NumbersTasks {
 
     @Override
     public boolean isHarshadNumber(int number) throws ArithmeticException {
+        if (number == 0) {
+            return false;
+        }
         int sum =0;
         for (int i = number; i >0 ; i/=10) {
 
@@ -89,21 +92,15 @@ public class NumbersTasksImpl implements NumbersTasks {
 
     @Override
     public boolean isArmstrongNumber(int number) {
-        int originalNumber, remainder, result = 0;
+        String[] strArray = Integer.toString(number).split("");
+        int pow = strArray.length;
 
-        originalNumber = number;
+        int result = 0;
 
-        while (originalNumber != 0)
-        {
-            remainder = originalNumber % 10;
-            result += Math.pow(remainder, 3);
-            originalNumber /= 10;
+        for (String s : strArray) {
+            result += Math.pow(Integer.parseInt(s), pow);
         }
-
-        if(result == number)
-            return true;
-        else
-            return false;
+        return number == result;
     }
 
 

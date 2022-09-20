@@ -7,11 +7,17 @@ public class PatternTasksImpl implements PatternTasks {
 
     @Override
     public boolean haveSetOfCharacters(String text) {
+        if (text == null || text.isBlank()) {
+            throw new IllegalArgumentException();
+        }
         return text.matches("^[\\w]+$");
     }
 
     @Override
     public String matchByCharacters(String text) {
+        if (text == null) {
+            throw new IllegalArgumentException();
+        }
         if (text.matches("pq*?"))
             return "Found a match!";
         else
@@ -20,6 +26,9 @@ public class PatternTasksImpl implements PatternTasks {
 
     @Override
     public String matchStartAndEnd(String text) {
+        if (text == null) {
+            throw new IllegalArgumentException();
+        }
         Pattern pattern = Pattern.compile("\\Bg\\B");
         Matcher m = pattern.matcher(text);
 
@@ -31,17 +40,26 @@ public class PatternTasksImpl implements PatternTasks {
 
     @Override
     public String matchIpAddress(String text) {
+        if (text == null || text.isBlank()) {
+            throw new IllegalArgumentException();
+        }
         return text.replaceAll("(?<=^|\\.)0+(?!\\.|$)","");
     }
 
     @Override
     public String matchVowels(String text) {
+        if (text == null || text.isBlank()) {
+            throw new IllegalArgumentException();
+        }
         String result = text.replaceAll("(?i)[aeiou]", "");
         return result;
     }
 
     @Override
     public boolean validatePIN(String text) {
+        if (text == null || text.isBlank()) {
+            throw new IllegalArgumentException();
+        }
         return text.matches("\\d{4}|\\d{6}|\\d{8}");
     }
 
@@ -64,12 +82,18 @@ public class PatternTasksImpl implements PatternTasks {
 
     @Override
     public boolean validatePhoneNumber(String text) {
+        if (text == null || text.isBlank()) {
+            throw new IllegalArgumentException();
+        }
 
         return text.matches("\\d{10}|(?:\\d{3}-){2}\\d{4}|\\(\\d{3}\\)\\d{3}-?\\d{4}");
     }
 
     @Override
     public String getLastVowelsByConstraint(String text, int n) {
+        if (text == null || text.isBlank() || n < 1 || text.length() < n) {
+            throw new RuntimeException();
+        }
         String s = text.replaceAll("(?i)[^aeiou]", "");
         int l = s.length();
         return (n > s.length()) ? "Number of vowels mismatch!!!" : s.substring(s.length() - n);
@@ -77,6 +101,9 @@ public class PatternTasksImpl implements PatternTasks {
 
     @Override
     public boolean isMathematicalExpression(String text) {
+        if (text == null || text.isBlank()) {
+            throw new IllegalArgumentException();
+        }
         return text.matches("((?:(?:^|[-+_*/])(?:\\s*-?\\d+(\\.\\d+)?(?:[eE][+-]?\\d+)?\\s*))+$)");
 
     }

@@ -1,41 +1,52 @@
 package com.knubisoft.base.reflection;
 
 import com.knubisoft.base.reflection.annotation.FirstAnnotation;
-import com.knubisoft.base.string.StringTasksImpl;
+import org.reflections.Reflections;
+
 
 import java.lang.reflect.*;
 import java.util.*;
 
-import static java.util.Collections.addAll;
+import static org.reflections.scanners.Scanners.SubTypes;
+
 
 public class ReflectionTasksImpl implements ReflectionTasks {
 
     @Override
     public Object createNewInstanceForClass(Class<?> cls) {
-        Object o = null;
+        if (cls == null) {
+            throw new NoSuchElementException();
+        }
+        String[] fields = {"tableName", "schemaName", "version"};
+        Class[] params = Arrays.stream(fields).map(String::getClass).toArray(Class[]::new);
         try {
-            cls = Class.forName("com.knubisoft.base.reflection.model.EntryModel");
-            Class[] params = {String.class, String.class, String.class};
-            o = cls.getConstructor(params).newInstance("1","2","3");
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException |
-                 NoSuchMethodException e) {
+            Constructor<?> constructor = cls.getConstructor(params);
+            return constructor.newInstance(fields);
+        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException
+                 | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
-        return o;
     }
 
     @Override
     public <T> Class<? extends T> findImplementationForInterface(Class<T> cls) {
 
-        Class<? extends T> getClassAndInterfaces = (Class<? extends T>) cls.getClass().getSuperclass();
-        Class<?>[] getInterface = getClassAndInterfaces.getInterfaces();
-      return null;
+        if (cls == null) {
+            throw new NoSuchElementException();
+        }
+        Set<Class<? extends T>> subTypesOf = new Reflections("com.knubisoft.base.reflection.model", SubTypes)
+                .getSubTypesOf(cls);
+        if (subTypesOf.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+        return new ArrayList<>(subTypesOf).get(0);
     }
 
     @Override
     public Map<String, Object> findAllFieldsForClass(Class<?> cls) {
-
-
+        if (cls == null) {
+            throw new NoSuchElementException();
+        }
 
         Map<String, Object> map = new HashMap<>();
         while (cls != null){
@@ -51,6 +62,9 @@ public class ReflectionTasksImpl implements ReflectionTasks {
 
     @Override
     public int countPrivateMethodsInClass(Class<?> cls) {
+        if (cls == null) {
+            throw new NoSuchElementException();
+        }
         int count =0;
         List<Field> privateFields = new ArrayList<>();
         Field[] allFields = cls.getDeclaredFields();
@@ -79,11 +93,24 @@ public class ReflectionTasksImpl implements ReflectionTasks {
 
     @Override
     public Object evaluateMethodByName(Class<?> cls, String name) {
-        return null;
+        if (name == null) {
+            throw new NoSuchElementException();
+        }
+        try {
+            Object instance = cls.getConstructor().newInstance();
+            Method method = cls.getMethod(name);
+            return method.invoke(instance);
+        } catch (InstantiationException | InvocationTargetException | NoSuchMethodException
+                 | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public Object evaluateMethodWithArgsByName(Object obj, String name, Object... args) {
+        if (obj == null || name == null || args == null) {
+            throw new IllegalArgumentException();
+        }
         Object result = "";
         try {
             Class<?> clazz = obj.getClass();
@@ -102,6 +129,15 @@ public class ReflectionTasksImpl implements ReflectionTasks {
 
     @Override
     public Object changePrivateFieldValue(Object instance, String name, Object newValue) {
-        return null;
+        try {
+            Object newInstance = instance.getClass().getConstructor().newInstance();
+            Field declaredField = newInstance.getClass().getDeclaredField(name);
+            declaredField.setAccessible(true);
+            declaredField.set(newInstance, newValue);
+            return newInstance;
+        } catch (NoSuchFieldException | NoSuchMethodException | IllegalAccessException | InstantiationException |
+                 InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -1,11 +1,11 @@
 package com.my.orm;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.datatype.jsr310.JSR310Module;
-import com.my.parseXml.Employee;
+import com.thoughtworks.xstream.XStream;
 import lombok.SneakyThrows;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -16,14 +16,11 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.BufferedReader;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -35,6 +32,26 @@ public class OrmSystem {
 
     public static final String DELIMITER = ",";
     private static final String COMMENT = "--";
+
+
+    public static <T extends Person> List<T> transformToType(File file, Class<T> cls) throws IOException {
+
+        FileContentTypeEnum typeEnum = findTypeOfFile(file);
+        switch (typeEnum){
+            case XML:
+                return parseXml(file,cls);
+            case JSON:
+                return parseJson(file,cls);
+        }
+
+        return null;
+    }
+
+    private static FileContentTypeEnum findTypeOfFile(File file) {
+        String patternPath = file.getPath();
+
+        return  null;
+    }
 
     public static <T> List<T> transform(List<String> lines, Class<T> cls) {
         Map<Integer, String> map = buildMapping(lines.get(0));
@@ -107,7 +124,7 @@ public class OrmSystem {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document = builder.parse(new File("C:\\Users\\konno\\Downloads" +
-                "\\java-education-main@28560403666\\src\\main\\resources\\readers.xml"));
+                "\\java-education-main@28560403666\\src\\main\\resources\\person.xml"));
         document.getDocumentElement().normalize();
         NodeList nList = document.getElementsByTagName("row");
         for (int temp = 0; temp < nList.getLength(); temp++) {
@@ -133,17 +150,23 @@ public class OrmSystem {
     }
 
 
-    public static List<Person> parseJson() throws IOException {
+    public static <T extends Person> List<T> parseJson(File file, Class<T> cls) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JSR310Module());
-        List<Person> personList = objectMapper.readValue(
-                new File("C:\\Users\\konno\\Downloads\\java-education-main@28560403666" +
-                        "\\src\\main\\resources\\rrr.json"),
-                new TypeReference<List<Person>>() {
+        List<T> personList = objectMapper.readValue(file, new TypeReference<List<T>>() {
                 }
         );
         return personList;
 
     }
+
+    public static <T extends Person> List<T> parseXml(File file, Class<T> clazz) throws IOException {
+        XmlMapper mapper = new XmlMapper();
+        mapper.registerModule(new JSR310Module());
+        List<T> person = (List<T>) mapper.readValue(file,clazz);
+        return (List<T>) person;
+    }
+
+
 
 }
